@@ -1,0 +1,70 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Create Post - Database Learning Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+  .post-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem;
+    border-radius: 10px;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  .form-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .form-card h2 {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+  .form-card label {
+    font-weight: 600;
+    color: #333;
+  }
+  .form-card input, .form-card textarea, .form-card select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background: #f9f9f9;
+  }
+  .form-card input[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .form-card input[type="submit"]:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="post-header">
+  <h1>Create a New Post</h1>
+  <p>Share your knowledge and experience with the community!</p>
+</div>
+<div class="form-card">
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+{% endblock %}

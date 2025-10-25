@@ -130,14 +130,14 @@
         <div class="posts-grid">
             {% for post in posts %}
             <div class="post-card">
-                <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                <h3><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h3>
                 <div class="post-meta">
-                    By {{ post.author.username }} on {{ post.created_on|date:"F j, Y" }}
+                    By <a href="{% url 'user-detail' username=post.author.username %}">{{ post.author.username }}</a> on {{ post.created_on|date:"F j, Y" }}
                 </div>
                 <div class="post-excerpt">
                     {{ post.content|truncatewords:30 }}
                 </div>
-                <a class="read-more" href="{{ post.get_absolute_url }}">Read More &rarr;</a>
+                <a class="read-more" href="{% url 'blog:post-detail' pk=post.pk %}">Read More &rarr;</a>
             </div>
             {% empty %}
             <p>No posts available.</p>
@@ -160,10 +160,9 @@
         <div class="sidebar">
             <h3>Recent Posts</h3>
             <ul>
-                <li><a href="#">Understanding Foreign Keys</a></li>
-                <li><a href="#">Creating Superusers</a></li>
-                <li><a href="#">Database Normalization</a></li>
-                <li><a href="#">Django Models Overview</a></li>
+                {% for post in posts|slice:":4" %}
+                <li><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></li>
+                {% endfor %}
             </ul>
         </div>
 

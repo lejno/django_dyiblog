@@ -20,14 +20,15 @@ from django.urls import include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from blog.views import user_detail  # Import the user_detail view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user/<str:username>/', user_detail, name='user-detail'),  # User profiles at root level
 ]
 
 urlpatterns += [
     path('blog/', include('blog.urls')),
-    
 ]
 
 urlpatterns += [

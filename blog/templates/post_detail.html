@@ -119,8 +119,9 @@
             
         </article>
         <p>
-            <a href="{% url 'add-comment' pk=post.pk %}">Add Comment</a>
+            <a href="{% url 'blog:add-comment' pk=post.pk %}">Add Comment</a>
         </p>
+
     </div>
 
     <aside>
@@ -145,5 +146,14 @@
             </ul>
         </div>
     </aside>
+<div class="comment-section">{% for comment in comments %}
+    <div class="comment">
+        <p><strong> <a href="{% url 'user-detail' username=comment.author.username %}" class="author-name">{{ post.author.username }}</a> </strong> on {{ comment.created_on|date:"F j, Y, g:i a" }}</p>
+           <p>{{ comment.body|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments yet. Be the first to comment!</p>
+{% endfor %}
+</div>
 </div>
 {% endblock %}

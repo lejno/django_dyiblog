@@ -20,7 +20,7 @@ class User(models.Model):
     def __str__(self):
         return self.username
     def get_absolute_url(self):
-        return reverse('user-detail', args=[str(self.id)])
+        return reverse('user-detail', args=[str(self.username)])
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
@@ -51,13 +51,13 @@ class Post(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('post-detail', args=[str(self.id)])
+        return reverse('blog:post-detail', args=[str(self.id)])
 
     
 
 # Create your models here.
 class Comment (models.Model):
-    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comment')
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
