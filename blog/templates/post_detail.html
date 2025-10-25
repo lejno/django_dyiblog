@@ -1,0 +1,149 @@
+{% extends "base_generic.html" %}
+
+{% block title %}{{ post.title }} - Database Learning Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .post-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 10px;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .post-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-meta {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+    }
+
+    .post-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .post-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+
+    .author-bio {
+        margin-left: 1rem;
+    }
+
+    .author-name {
+        font-weight: 600;
+        color: #667eea;
+        text-decoration: none;
+    }
+
+    .author-name:hover {
+        color: #764ba2;
+    }
+
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 2rem;
+    }
+
+    .sidebar {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .sidebar h3 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .content-wrapper {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="post-header">
+    <h1>{{ post.title }}</h1>
+    <div class="post-meta">
+        By <a href="{% url 'user-detail' username=post.author.username %}" class="author-name">{{ post.author.username }}</a> 
+        on {{ post.created_on|date:"F j, Y" }}
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <article class="post-content">
+            {{ post.content|linebreaks }}
+
+            <div class="author-info">
+                <div class="author-bio">
+                    <h3>About the Author</h3>
+                    <p>
+                        <a href="{% url 'user-detail' username=post.author.username %}" class="author-name">
+                            {{ post.author.username }}
+                        </a>
+                        {% if post.author.profile.bio %}
+                            - {{ post.author.profile.bio|truncatewords:30 }}
+                        {% endif %}
+                    </p>
+                </div>
+                
+            </div>
+            
+        </article>
+        <p>
+            <a href="{% url 'add-comment' pk=post.pk %}">Add Comment</a>
+        </p>
+    </div>
+
+    <aside>
+        <div class="sidebar">
+            <h3>Recent Posts</h3>
+            <ul>
+                {% for recent_post in recent_posts|slice:":5" %}
+                <li>
+                    <a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="sidebar">
+            <h3>Categories</h3>
+            <ul>
+                <li><a href="#">Django ORM</a></li>
+                <li><a href="#">SQL Basics</a></li>
+                <li><a href="#">Database Design</a></li>
+                <li><a href="#">PostgreSQL</a></li>
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

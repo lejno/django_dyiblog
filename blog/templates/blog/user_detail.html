@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+<h2>{{ user.username }}</h2>
+<p>{{ user.profile.bio }}</p>
+<h3>Posts by {{ user.username }}</h3>
+{% for post in posts %}
+  <article>
+    <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+    <p>{{ post.created_on|date:"F j, Y" }}</p>
+  </article>
+{% empty %}
+  <p>No posts yet.</p>
+{% endfor %}

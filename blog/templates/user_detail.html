@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block title %}User - {{ user.username }}{% endblock %}
+
+{% block content %}
+<h2>{{ user.username }}</h2>
+<p>{{ user.profile.bio }}</p>
+
+<h3>Posts by {{ user.username }}</h3>
+<h3>Bio:</h3>
+<div>{{ user.profile.bio }}</div>
+<div class="posts-grid">
+    {% for post in posts %}
+    <div class="post-card">
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        <div class="post-meta">By {{ post.author.username }} on {{ post.created_on|date:"F j, Y" }}</div>
+        <div class="post-excerpt">{{ post.content|truncatewords:30 }}</div>
+    </div>
+    {% empty %}
+    <p>No posts yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,179 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Home - Database Learning Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 10px;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .post-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .post-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .post-meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-excerpt {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .read-more {
+        display: inline-block;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+
+    .read-more:hover {
+        color: #764ba2;
+    }
+
+    .sidebar {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .sidebar h3 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 0.5rem;
+    }
+
+    .sidebar ul {
+        list-style: none;
+    }
+
+    .sidebar li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .sidebar a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #667eea;
+    }
+
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .content-wrapper {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>Welcome to My Database Learning Journey!</h2>
+    <p>Follow along as I explore SQL, NoSQL, ORMs, and everything databases</p>
+</div>
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <h2 style="margin-bottom: 2rem; color: #333;">Latest Posts</h2>
+        <h2 style="margin-bottom: 2rem; color: #333;">All posts: {{ num_posts }}</h2>
+        
+        <div class="posts-grid">
+            {% for post in posts %}
+            <div class="post-card">
+                <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                <div class="post-meta">
+                    By {{ post.author.username }} on {{ post.created_on|date:"F j, Y" }}
+                </div>
+                <div class="post-excerpt">
+                    {{ post.content|truncatewords:30 }}
+                </div>
+                <a class="read-more" href="{{ post.get_absolute_url }}">Read More &rarr;</a>
+            </div>
+            {% empty %}
+            <p>No posts available.</p>
+            {% endfor %}
+        </div>
+            
+
+    <aside>
+        <div class="sidebar">
+            <h3>Categories</h3>
+            <ul>
+                <li><a href="#">Django ORM (5)</a></li>
+                <li><a href="#">SQL Basics (8)</a></li>
+                <li><a href="#">Database Design (4)</a></li>
+                <li><a href="#">PostgreSQL (3)</a></li>
+                <li><a href="#">Migrations (6)</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar">
+            <h3>Recent Posts</h3>
+            <ul>
+                <li><a href="#">Understanding Foreign Keys</a></li>
+                <li><a href="#">Creating Superusers</a></li>
+                <li><a href="#">Database Normalization</a></li>
+                <li><a href="#">Django Models Overview</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar">
+            <h3>About This Blog</h3>
+            <p style="color: #555; line-height: 1.6;">
+                This is my personal learning journal as I dive deep into databases and Django. 
+                Join me on this journey!
+            </p>
+        </div>
+    </aside>
+</div>
+{% endblock %}
